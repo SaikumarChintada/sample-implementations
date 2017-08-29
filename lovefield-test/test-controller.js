@@ -2,17 +2,25 @@
 //use dependencies
 
 (function(tabUtils,dataFetcher){
+	var displayTables = function(name,records){
+		var formatted = tabUtils.formatJsonToArray(records);
+		var html = tabUtils.createTable(name,formatted.cols,formatted.rows);
+		$('#tables').append(html);
+	}
+	var displayTablesJoin = function(name,records){
+		var formatted = tabUtils.formatJsonToJoinArray(records);
+		var html = tabUtils.createTable(name,formatted.cols,formatted.rows);
+		$('#tables').append(html);
+	}
 	dataFetcher.then(function(results){
 		var flip = results.flip;
 		var test = results.test;
+		var testXflip = results.testXflip;
 		
-		var formatted = tabUtils.formatJsonToArray(flip);
-		var html = tabUtils.createTable('flip',formatted.cols,formatted.rows);
-		$('#tables').append(html);
+		displayTables('flip',flip);
+		displayTables('test',test);
+		displayTablesJoin('flip-test',testXflip);
 
-		formatted = tabUtils.formatJsonToArray(test);
-		html = tabUtils.createTable('test',formatted.cols,formatted.rows);
-		$('#tables').append(html);
 	})
 
 

@@ -22,20 +22,25 @@ window.dataFetcher = ( function(lf){
 		addColumn('updated_on', lf.Type.DATE_TIME).
 		addPrimaryKey(['id'],true).
 		addIndex('idxName',['name'], false, lf.Order.DESC);
-	var testRows = [], flipRows = [];
+	var testRows = [], flipRows = [],testXflip = [];
 
 	//returning a promise
 	return  testSchema.connect().then(function(db) {
 		testDb = db;
-		var item = testDb.getSchema().table('test');
-		return testDb.select().from(item).exec();
-	}).then(function(results) {
-		testRows = results;
-		var item = testDb.getSchema().table('flip');
-		return testDb.select().from(item).exec();
+		var test = testDb.getSchema().table('test');
+		var flip = testDb.getSchema().table('flip');
+		return testDb.select().from(test).innerJoin(flip,flip.id.eq(test.f_id)).where(flip.id.gt(3)).exec();
+	}).then(function(results){
+		testXflip = results;
+		var flip = testDb.getSchema().table('flip');
+		return testDb.select().from(flip).where(flip.id.gt(3)).exec();
 	}).then(function(results){
 		flipRows = results;
-		return new Promise(resolve => { resolve({flip : flipRows,test : testRows}) });
+		var test = testDb.getSchema().table('test');
+		return testDb.select().from(test).where(test.id.gt(3)).exec();
+	}).then(function(results){
+		testRows = results;
+		return new Promise(resolve => { resolve({flip : flipRows,test : testRows, testXflip : testXflip}) });
 	});
 
 })(lf);

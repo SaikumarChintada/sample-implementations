@@ -47,9 +47,54 @@ window.tableUtils = (function(){
 			cols : cols
 		}
 	};
+	var formatJsonToJoinArray = function(records){
+		var record = records[0];
+		var cols = [],rows = [];
+
+		for(var type in record){
+			for(var col in record[type]){
+				cols.push(type +'.'+ col);
+			}
+		}
+
+		for (var i = 0; i < records.length; i++) {
+			var record = records[i];
+			var eachRow = [];
+			for(var type in record){
+				for(var col in record[type]){
+					eachRow.push(record[type][col]);
+				}
+			}
+			rows.push(eachRow);
+		}
+		return {
+			rows : rows,
+			cols : cols
+		}
+	};
+	var formatJsonToArray = function(records){
+		var record = records[0];
+		var cols = [],rows = [];
+		for(var col in record){
+			cols.push(col);
+		}
+		for (var i = 0; i < records.length; i++) {
+			var record = records[i];
+			var eachRow = [];
+			for(var col in record){
+				eachRow.push(record[col]);
+			}
+			rows.push(eachRow);
+		}
+		return {
+			rows : rows,
+			cols : cols
+		}
+	};
 	return {
 		createTable : createTable,
-		formatJsonToArray : formatJsonToArray
+		formatJsonToArray : formatJsonToArray,
+		formatJsonToJoinArray : formatJsonToJoinArray
 	}
 })();
 
