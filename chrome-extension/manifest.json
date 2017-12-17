@@ -1,0 +1,26 @@
+{
+	"manifest_version" : 2,
+	"name" : "Simple chrome extension test",
+	"description" : "",
+	"version" : "0.0.1",
+	"browser_action" : {
+		"default_title" : "simple chrome warmup test"
+		// "default_popup" : "index.html"
+	},
+	"background" : {
+    	"scripts": ["bg.js"],
+    	"persistent" : false
+  	},
+	"content_scripts" : [
+	    {
+	      "matches": ["http://*/*","https://*/*"],
+	      "js": ["cs.js"],
+	      "run_at": "document_end"
+	    }
+  	],
+	"permissions" : [
+		"<all_urls>",
+		"tabs",
+		"storage"
+	]
+}
