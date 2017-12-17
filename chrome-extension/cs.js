@@ -18,12 +18,15 @@
 	// handle url save response : console log result
 	chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		if (request.event == "ext.click"){
+			chrome.storage.local.get('urls',(items) => console.log(items));
 			addTextToPage();
-			console.log(request.data);
 		}else if(request.event == "url.save"){
 			console.log({logSuccess : request.data});
 		}
 	});
+	
+	// chrome.storage.local.get('urls',(items) => console.log(items));
+	
 
 	//helpers -----------------------------
 	function addTextToPage(){

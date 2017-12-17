@@ -16,7 +16,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 // Event 2 : console.log the urlArray from localstorage
 chrome.browserAction.onClicked.addListener(function(tab) {
-	getAllUrls((item) => chrome.tabs.sendMessage(tab.id, {event: "ext.click",data : item})); 
+	// getAllUrls(() => chrome.tabs.sendMessage(tab.id, {event: "ext.click"}) );
+	chrome.tabs.sendMessage(tab.id, {event: "ext.click"});
 });
 
 
